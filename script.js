@@ -7,9 +7,32 @@ const keyPad = document.querySelectorAll(".key-pad button");
 const answerScreen = document.querySelector(".answer-screen");
 answerScreen.textContent = "0";
 
+const clearButton = document.querySelector(".clear-button");
+let powerTimer;
+let isOff = false;
+
+clearButton.addEventListener("mousedown", function() {
+    playClick();
+powerTimer = setTimeout(function() {
+    isOff = !isOff;
+    if (isOff) {
+        answerScreen.style.backgroundColor = "black";
+        answerScreen.textContent = "";
+    } else {
+        answerScreen.style.backgroundColor = "#c8f5c8";
+        answerScreen.textContent = "0";
+    }
+}, 1000)
+});
+
+clearButton.addEventListener("mouseup", function() {
+    clearTimeout(powerTimer);
+});
 
 for (let i = 0; i < keyPad.length; i++) {
     keyPad[i].addEventListener("click", function () {
+        if (isOff) return;
+        playClick()
         let buttonValue = keyPad[i].textContent;
         if (buttonValue === "Back") {
             if (operator === null) {
@@ -91,3 +114,26 @@ function operate(num1, operator, num2) {
         return divide(num1, num2);
     };
 }  
+
+function playClick() {
+    const audioCtx = new AudioContext();
+    const bufferSize = audioCtx.sampleRate * 0.02;
+    const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+    const data = buffer.getChannelData(0);
+    
+    for (let i = 0; i < bufferSize; i++) {
+        data[i] = Math.random() * 2 - 1;
+    }
+    
+    const source = audioCtx.createBufferSource();
+    const gainNode = audioCtx.createGain();
+    
+    source.buffer = buffer;
+    source.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+    
+    gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.02);
+    
+    source.start();
+}
