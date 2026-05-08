@@ -137,3 +137,44 @@ function playClick() {
     
     source.start();
 }
+
+const micButton = document.getElementById('speak-button');
+
+const recognition = new SpeechRecognition();
+recognition.continuous = false;
+recognition.interimResults = false;
+
+recognition.onresult = function(event) {
+    const transcript = event.results[0][0].transcript;
+    console.log('Heard:', transcript);
+
+    const wordMap = {
+        'zero': '0', 'one': '1', 'two': '2', 'three': '3', 'four': '4',
+        'five': '5', 'six': '6', 'seven': '7', 'eight': '8', 'nine': '9',
+        'plus': '+', 'minus': '-', 'times': '*', 'divided': '/', 'by': '',
+        'equals': '=', 'equal': '='
+    };
+
+    const words = transcript.toLowerCase().split(' ');
+    const characters = [];
+    words.forEach(function(word) {
+        const mapped = wordMap[word] !== undefined ? wordMap[word] : word;
+        mapped.split('').forEach(function(char) {
+            if (char !== '') characters.push(char);
+        });
+    });
+    console.log('Characters:', characters);
+
+    characters.forEach(function(char) {
+          const buttons = document.querySelectorAll('button');
+          buttons.forEach(function(button) {
+              if (button.textContent.trim() === char) {
+                  button.click();
+              }
+          });
+      });
+  };
+
+micButton.addEventListener('click', function() {
+    recognition.start();
+});
