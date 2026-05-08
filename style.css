@@ -68,6 +68,11 @@ button:hover {
     width: 145px;
 }
 
+#speak-button {
+    width: 228px;
+    background-color: red;
+}
+
 button.operator {
     background-color: orange;
     color: white;
