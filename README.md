@@ -17,6 +17,8 @@ A fully functional calculator built with vanilla HTML, CSS, and JavaScript as pa
 - Divide by zero error handling
 - Long decimal rounding to prevent display overflow
 - 3D button press effect on click
+- Voice input: speak a calculation and watch each button press animate in sequence with click sounds
+- Spoken output: the calculator reads the result aloud after calculating
 ## Built With
  
 - HTML
@@ -28,6 +30,9 @@ A fully functional calculator built with vanilla HTML, CSS, and JavaScript as pa
 - Managing application state with variables across multiple event listeners
 - The difference between object mutation and primitive copying in JavaScript
 - How to handle edge cases like chained operations, divide by zero, and repeated equals presses
+- Using the Web Speech API for both voice recognition and speech synthesis
+- Parsing inconsistent speech-to-text output with a word map
+- Sequencing async events with `setTimeout` to animate button presses in order
 ## Screenshots
  
 ![Calculator Screenshot](calc-screen-recording.gif)

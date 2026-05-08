@@ -164,15 +164,29 @@ recognition.onresult = function(event) {
         });
     });
     console.log('Characters:', characters);
+    characters.push('=');
 
-    characters.forEach(function(char) {
-          const buttons = document.querySelectorAll('button');
-          buttons.forEach(function(button) {
-              if (button.textContent.trim() === char) {
-                  button.click();
-              }
-          });
-      });
+    characters.forEach(function(char, index) {
+        setTimeout(function() {
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(function(button) {
+                if (button.textContent.trim() === char) {
+                    button.classList.add('pressed');
+                    button.click();
+                    setTimeout(function() {
+                        button.classList.remove('pressed');
+                    }, 100);
+                }
+            });
+        }, index * 300);
+    });
+
+    const speakDelay = characters.length * 300 + 400;
+    setTimeout(function() {
+        const result = answerScreen.textContent;
+        const utterance = new SpeechSynthesisUtterance(result);
+        window.speechSynthesis.speak(utterance);
+    }, speakDelay);
   };
 
 micButton.addEventListener('click', function() {
