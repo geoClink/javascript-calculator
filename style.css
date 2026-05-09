@@ -70,7 +70,17 @@ button:hover {
 
 #speak-button {
     width: 228px;
+    height: 48px;
     background-color: red;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#speak-button svg {
+    width: 24px;
+    height: 24px;
+    stroke: white;
 }
 
 button.operator {
