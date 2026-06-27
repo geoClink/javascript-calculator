@@ -192,3 +192,24 @@ recognition.onresult = function(event) {
 micButton.addEventListener('click', function() {
     recognition.start();
 });
+
+const keyMap = {
+    "0": "0", "1": "1", "2": "2", "3": "3", "4": "4",
+    "5": "5", "6": "6", "7": "7", "8": "8", "9": "9",
+    "+": "+", "-": "-", "*": "*", "/": "/", ".": ".",
+    "Enter": "=", "=": "=",
+    "Backspace": "Back",
+    "Escape": "Clear"
+};
+
+document.addEventListener("keydown", function(event) {
+    if (isOff) return;
+    const target = keyMap[event.key];
+    if (!target) return;
+    const buttons = document.querySelectorAll("button");
+    buttons.forEach(function(button) {
+        if (button.textContent.trim() === target) {
+            button.click();
+        }
+    });
+});
